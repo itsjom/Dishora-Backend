@@ -10,6 +10,7 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -42,11 +43,11 @@ public class Login extends AppCompatActivity {
 //    private static final String KEY_PASSWORD = "password";
 //    private static final String KEY_REMEMBER = "remember";
 
-    //
+//
     private static final String KEYSTORE_ALIAS ="secret_key";
     private static final String ANDROID_KEYSTORE = "AndroidKeyStore";
 
-    //
+//
     private KeyStore keyStore;
 
     @Override
@@ -54,6 +55,8 @@ public class Login extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_login);
+
+        ProgressBar progressBar = findViewById(R.id.progressBar);
 
         SharedPreferences sharedPreferences = getSharedPreferences("MyPreferences", MODE_PRIVATE);
         boolean isLoggedIn = sharedPreferences.getBoolean("isLoggedIn", false);
@@ -65,9 +68,7 @@ public class Login extends AppCompatActivity {
             finish(); // don't allow back to login
         }
 
-
         emailET = findViewById(R.id.emailInput);
-
         passwrdET = findViewById(R.id.passwordInput);
         togglePassword = findViewById(R.id.togglePasswordVisibility);
 
@@ -119,12 +120,20 @@ public class Login extends AppCompatActivity {
                     return;
                 }
 
+                // Show loader and disable login button
+                progressBar.setVisibility(View.VISIBLE);
+                loginBtn.setEnabled(false);
+
                 LoginRequest request = new LoginRequest(email, password);
                 ApiService api = ApiClient.getClient().create(ApiService.class);
 
-                api.login(request).enqueue(new retrofit2.Callback<LoginResponse>() {
+                api.login(request).enqueue(new Callback<LoginResponse>() {
                     @Override
                     public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
+                        // Hide loader and enable login button
+                        progressBar.setVisibility(View.GONE);
+                        loginBtn.setEnabled(true);
+
                         if (response.isSuccessful() && response.body() != null) {
                             LoginResponse res = response.body();
                             if (res.isSuccess()) {
@@ -152,6 +161,10 @@ public class Login extends AppCompatActivity {
 
                     @Override
                     public void onFailure (Call<LoginResponse> call, Throwable t) {
+                        // Hide loader and enable login button
+                        progressBar.setVisibility(View.GONE);
+                        loginBtn.setEnabled(true);
+
                         Toast.makeText(Login.this, "Error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
                     }
                 });
