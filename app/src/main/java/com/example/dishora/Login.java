@@ -11,11 +11,21 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.dishora.models.LoginRequest;
+import com.example.dishora.models.LoginResponse;
+import com.example.dishora.network.ApiClient;
+import com.example.dishora.network.ApiService;
+
 import java.security.KeyStore;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class Login extends AppCompatActivity {
 
@@ -26,11 +36,11 @@ public class Login extends AppCompatActivity {
     private Button loginBtn;
 
     //SharedPreferences
-    private SharedPreferences sharedPreferences;
-    private static final String PREF_NAME = "MyPreferences";
-    private static final String KEY_USERNAME = "username";
-    private static final String KEY_PASSWORD = "password";
-    private static final String KEY_REMEMBER = "remember";
+//    private SharedPreferences sharedPreferences;
+//    private static final String PREF_NAME = "MyPreferences";
+//    private static final String KEY_USERNAME = "username";
+//    private static final String KEY_PASSWORD = "password";
+//    private static final String KEY_REMEMBER = "remember";
 
     //
     private static final String KEYSTORE_ALIAS ="secret_key";
@@ -44,6 +54,17 @@ public class Login extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_login);
+
+        SharedPreferences sharedPreferences = getSharedPreferences("MyPreferences", MODE_PRIVATE);
+        boolean isLoggedIn = sharedPreferences.getBoolean("isLoggedIn", false);
+
+        if (isLoggedIn) {
+            // Already logged in
+            Intent i = new Intent(Login.this, MainActivity.class);
+            startActivity(i);
+            finish(); // don't allow back to login
+        }
+
 
         emailET = findViewById(R.id.emailInput);
 
@@ -90,8 +111,50 @@ public class Login extends AppCompatActivity {
         loginBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(Login.this, MainActivity.class);
-                startActivity(i);
+                String email = emailET.getText().toString().trim();
+                String password = passwrdET.getText().toString().trim();
+
+                if (email.isEmpty() || password.isEmpty()) {
+                    Toast.makeText(Login.this, "Please fill in all fields", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                LoginRequest request = new LoginRequest(email, password);
+                ApiService api = ApiClient.getClient().create(ApiService.class);
+
+                api.login(request).enqueue(new retrofit2.Callback<LoginResponse>() {
+                    @Override
+                    public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
+                        if (response.isSuccessful() && response.body() != null) {
+                            LoginResponse res = response.body();
+                            if (res.isSuccess()) {
+                                Toast.makeText(Login.this, "Login successful!", Toast.LENGTH_SHORT).show();
+
+                                // Save login info
+                                SharedPreferences sharedPreferences = getSharedPreferences("MyPreferences", MODE_PRIVATE);
+                                SharedPreferences.Editor editor = sharedPreferences.edit();
+                                editor.putString("email", email);
+                                editor.putBoolean("isLoggedIn", true); // mark as logged in
+                                editor.apply();
+
+                                // Redirect to Main Activity
+                                Intent i = new Intent(Login.this, MainActivity.class);
+                                startActivity(i);
+                                finish();
+                            } else {
+                                Toast.makeText(Login.this, res.getMessage(), Toast.LENGTH_SHORT).show();
+                            }
+                        } else {
+
+                            Toast.makeText(Login.this, "Login failed. Code" + response.code(), Toast.LENGTH_SHORT).show();
+                        }
+                    }
+
+                    @Override
+                    public void onFailure (Call<LoginResponse> call, Throwable t) {
+                        Toast.makeText(Login.this, "Error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                });
             }
         });
 
