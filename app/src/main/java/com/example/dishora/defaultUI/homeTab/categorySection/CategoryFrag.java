@@ -1,4 +1,4 @@
-package com.example.dishora;
+package com.example.dishora.defaultUI.homeTab.categorySection;
 
 import android.graphics.Color;
 import android.os.Bundle;
@@ -10,15 +10,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link CategoryFrag#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class CategoryFrag extends Fragment {
 
     private static final String ARG_CATEGORY = "category";
     private String categoryName;
+    
     public static CategoryFrag newInstance(String category) {
         CategoryFrag fragment = new CategoryFrag();
         Bundle args = new Bundle();

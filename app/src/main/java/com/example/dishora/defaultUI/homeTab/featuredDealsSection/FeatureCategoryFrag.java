@@ -1,4 +1,4 @@
-package com.example.dishora;
+package com.example.dishora.defaultUI.homeTab.featuredDealsSection;
 
 import android.graphics.Color;
 import android.os.Bundle;
@@ -9,6 +9,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
+import com.example.dishora.defaultUI.homeTab.categorySection.CategoryFrag;
 
 /**
  * A simple {@link Fragment} subclass.

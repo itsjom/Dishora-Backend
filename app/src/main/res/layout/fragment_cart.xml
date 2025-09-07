@@ -1,23 +1,140 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- UI LAYOUT OF THE CART SCREEN -->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="#F8F9FF"
     android:orientation="vertical"
     android:padding="16dp"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
-        android:text="Cart"
-        android:textSize="24sp"
-        android:textStyle="bold" />
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerView"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"/>
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <ImageButton
+            android:id="@+id/buttonBack"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:contentDescription="Back"
+            android:src="@drawable/back_arrow"
+            app:tint="#000000" />
+
+        <TextView
+            android:id="@+id/textTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:text="Cart"
+            android:textColor="#000000"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_weight="1" />
+
+        <ImageButton
+            android:id="@+id/imageButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:src="@drawable/search" />
+    </LinearLayout>
+
+    <FrameLayout
+        android:id="@+id/cartCheckoutFragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                android:background="@drawable/square"
+                android:backgroundTint="#fff"
+                android:divider="@drawable/space_10dp"
+                android:orientation="horizontal"
+                android:padding="5dp"
+                android:showDividers="middle">
+
+                <Button
+                    android:id="@+id/button3"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:backgroundTint="#fff"
+                    android:fontFamily="@font/jost_medium"
+                    android:text="Order"
+                    android:textColor="#000"
+                    app:cornerRadius="10dp"
+                    app:strokeColor="#D5D5D5"
+                    app:strokeWidth="1dp" />
+
+                <Button
+                    android:id="@+id/button5"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:backgroundTint="#fff"
+                    android:ellipsize="none"
+                    android:fontFamily="@font/jost_medium"
+                    android:gravity="center"
+                    android:minWidth="0dp"
+                    android:minHeight="0dp"
+                    android:paddingHorizontal="8dp"
+                    android:paddingVertical="10dp"
+                    android:singleLine="true"
+                    android:text="Placed Order"
+                    android:textColor="#000"
+                    app:cornerRadius="10dp"
+                    app:strokeColor="#D5D5D5"
+                    app:strokeWidth="1dp" />
+
+                <Button
+                    android:id="@+id/button6"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:backgroundTint="#fff"
+                    android:ellipsize="none"
+                    android:fontFamily="@font/jost_medium"
+                    android:gravity="center"
+                    android:minWidth="0dp"
+                    android:minHeight="0dp"
+                    android:paddingHorizontal="8dp"
+                    android:paddingVertical="10dp"
+                    android:singleLine="true"
+                    android:text="Pre-Order"
+                    android:textColor="#000"
+                    app:cornerRadius="10dp"
+                    app:strokeColor="#D5D5D5"
+                    app:strokeWidth="1dp" />
+            </LinearLayout>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/cartRecyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_marginTop="10dp"
+                android:layout_weight="1"
+                android:background="@drawable/square_border"
+                android:clipToOutline="true"
+                android:clipToPadding="false"
+                android:elevation="0dp" />
+
+        </LinearLayout>
+
+    </FrameLayout>
+
+
 </LinearLayout>

@@ -11,6 +11,9 @@
     <item android:title="Inbox"
         android:id="@+id/inbox"
         android:icon="@drawable/inbox"/>
+    <item android:title="Vendors"
+        android:id="@+id/vendors"
+        android:icon="@drawable/vendors"/>
     <item android:title="Profile"
         android:id="@+id/profile"
         android:icon="@drawable/profile"/>
