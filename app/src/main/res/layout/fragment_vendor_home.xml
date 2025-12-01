@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <include android:id="@+id/toolbar_home" layout="@layout/toolbar_home_vendor" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true"
+        android:background="#F5F7FA">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <!-- Search -->
+<!--            <com.google.android.material.card.MaterialCardView-->
+<!--                android:id="@+id/searchBarCard"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="56dp"-->
+<!--                android:backgroundTint="@android:color/white"-->
+<!--                android:layout_marginTop="15dp"-->
+<!--                app:cardCornerRadius="15dp"-->
+<!--                app:cardElevation="2dp"-->
+<!--                app:layout_constraintEnd_toEndOf="parent"-->
+<!--                app:layout_constraintStart_toStartOf="parent"-->
+<!--                app:layout_constraintTop_toBottomOf="@+id/textView11">-->
+
+<!--                <LinearLayout-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="match_parent"-->
+<!--                    android:gravity="center_vertical"-->
+<!--                    android:orientation="horizontal"-->
+<!--                    android:paddingHorizontal="12dp">-->
+
+<!--                    &lt;!&ndash; Search Icon &ndash;&gt;-->
+<!--                    <ImageView-->
+<!--                        android:layout_width="24dp"-->
+<!--                        android:layout_height="24dp"-->
+<!--                        android:contentDescription="Search"-->
+<!--                        android:src="@drawable/search"-->
+<!--                        app:tint="#999999" />-->
+
+<!--                    &lt;!&ndash; Search Input &ndash;&gt;-->
+<!--                    <EditText-->
+<!--                        android:id="@+id/searchEditText"-->
+<!--                        android:layout_width="0dp"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:layout_marginStart="8dp"-->
+<!--                        android:layout_weight="1"-->
+<!--                        android:background="@null"-->
+<!--                        android:hint="Search for.."-->
+<!--                        android:imeOptions="actionSearch"-->
+<!--                        android:singleLine="true"-->
+<!--                        android:textColor="@android:color/black"-->
+<!--                        android:textColorHint="#999999" />-->
+
+<!--                    &lt;!&ndash; Filter Button &ndash;&gt;-->
+<!--                    <ImageButton-->
+<!--                        android:id="@+id/btnFilter"-->
+<!--                        android:layout_width="40dp"-->
+<!--                        android:layout_height="40dp"-->
+<!--                        android:background="@drawable/orange_circle_background"-->
+<!--                        android:contentDescription="Filter"-->
+<!--                        android:padding="8dp"-->
+<!--                        android:src="@drawable/filter__1_"-->
+<!--                        app:tint="@android:color/white" />-->
+<!--                </LinearLayout>-->
+<!--            </com.google.android.material.card.MaterialCardView>-->
+
+            <!-- Stats Section -->
+            <GridLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:columnCount="2"
+                android:rowCount="3"
+                android:alignmentMode="alignBounds"
+                android:rowOrderPreserved="false"
+                android:useDefaultMargins="false"
+                android:layout_marginTop="16dp"
+                android:padding="0dp">
+
+                <!-- Active Orders -->
+                <include layout="@layout/item_stat_card"
+                    android:id="@+id/cardActiveOrders"
+                    android:layout_width="0dp"
+                    android:layout_height="140dp"
+                    android:layout_columnWeight="1" />
+
+                <!-- Pending Orders -->
+                <include layout="@layout/item_stat_card"
+                    android:id="@+id/cardPendingOrders"
+                    android:layout_width="0dp"
+                    android:layout_height="140dp"
+                    android:layout_columnWeight="1"/>
+
+                <!-- Rating -->
+                <include layout="@layout/item_stat_card"
+                    android:id="@+id/cardRating"
+                    android:layout_width="0dp"
+                    android:layout_height="140dp"
+                    android:layout_columnWeight="1"/>
+
+                <!-- Monthly Orders -->
+                <include layout="@layout/item_stat_card"
+                    android:id="@+id/cardMonthlyOrders"
+                    android:layout_width="0dp"
+                    android:layout_height="140dp"
+                    android:layout_columnWeight="1"/>
+
+                <!-- Pre-Order Schedule -->
+                <include layout="@layout/item_stat_card"
+                    android:id="@+id/cardPreOrderSchedule"
+                    android:layout_width="0dp"
+                    android:layout_height="140dp"
+                    android:layout_columnWeight="1"/>
+            </GridLayout>
+
+            <!-- Sales Track Graph -->
+            <include
+                android:id="@+id/cardSalesTrack"
+                layout="@layout/item_chart_card" />
+
+            <!-- Revenue Graph -->
+            <include
+                android:id="@+id/cardRevenue"
+                layout="@layout/item_chart_card" />
+
+            <!-- Customers + Sales Analytics -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:weightSum="2"
+                android:layout_marginTop="16dp">
+
+                <include
+                    android:id="@+id/cardCustomers"
+                    layout="@layout/item_small_card"
+                    android:layout_weight="1" />
+
+                <include
+                    android:id="@+id/cardSalesAnalytics"
+                    layout="@layout/item_small_card"
+                    android:layout_weight="1" />
+            </LinearLayout>
+
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>

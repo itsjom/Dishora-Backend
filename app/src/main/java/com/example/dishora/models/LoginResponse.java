@@ -1,6 +1,6 @@
 package com.example.dishora.models;
 
-import android.service.autofill.UserData;
+import com.google.gson.annotations.SerializedName;
 
 public class LoginResponse {
     private boolean success;
@@ -18,15 +18,42 @@ public class LoginResponse {
     public UserData getData() { return data; }
 
     public static class UserData {
-        private long user_id;
+        @SerializedName("user_Id")
+        private long userId;
+
+        @SerializedName("business_Id")
+        private Long businessId;
+
+        @SerializedName("fullName")
+        private String fullName;
+
+        @SerializedName("username")
         private String username;
 
-        public long getUserId() {
-            return user_id;
-        }
+        @SerializedName("email")
+        private String email;
 
-        public String getUsername() {
-            return username;
-        }
+        @SerializedName("token")
+        private String token;
+
+        @SerializedName("isVendor")
+        private boolean isVendor;
+
+        @SerializedName("vendorStatus")
+        private String vendorStatus;
+
+        @SerializedName("vendorId")
+        private Long vendorId;
+
+        // --- Getters ---
+        public long getUserId() { return userId; }
+        public String getFullName() { return fullName; }      // ✅ add getter
+        public String getUsername() { return username; }
+        public String getEmail() { return email; }
+        public String getToken() { return token; }
+        public boolean isVendor() { return isVendor; }
+        public String getVendorStatus() { return vendorStatus; }
+        public Long getVendorId() { return vendorId; }
+        public Long getBusinessId() { return businessId; }
     }
 }

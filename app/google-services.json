@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "120429210802",
+    "project_id": "dishora-image-container",
+    "storage_bucket": "dishora-image-container.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:120429210802:android:21a80703f073242acd6dab",
+        "android_client_info": {
+          "package_name": "com.example.dishora"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAdlWuCcZy2viRi5r4GnEk-CaIou2Oxsi0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

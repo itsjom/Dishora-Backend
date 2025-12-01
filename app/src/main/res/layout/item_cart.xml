@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="8dp"
+    app:cardCornerRadius="16dp"
+    app:cardElevation="2dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="12dp">
+
+        <!-- Top Row: Restaurant logo + name + more icon -->
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <!-- Business logo -->
+            <com.google.android.material.imageview.ShapeableImageView
+                android:id="@+id/imgRestaurantLogo"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_marginEnd="8dp"
+                android:padding="1dp"
+                android:adjustViewBounds="true"
+                android:contentDescription="Business logo"
+                android:scaleType="centerCrop"
+                app:shapeAppearanceOverlay="@style/CartCircleImage"
+                app:strokeColor="@color/orange"
+                app:strokeWidth="1dp" />
+
+            <!-- Store name -->
+            <TextView
+                android:id="@+id/txtRestaurantName"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_toEndOf="@id/imgRestaurantLogo"
+                android:layout_toStartOf="@id/imgMore"
+                android:layout_marginStart="8dp"
+                android:text="Store name"
+                android:textStyle="bold"
+                android:textSize="14sp"
+                android:textColor="@android:color/black"
+                android:ellipsize="end"
+                android:maxLines="1" />
+
+            <!-- 3-dot Menu -->
+            <ImageView
+                android:id="@+id/imgMore"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_alignParentEnd="true"
+                android:src="@drawable/ic_menu_dots"
+                app:tint="@android:color/darker_gray" />
+
+            <!-- Address -->
+            <TextView
+                android:id="@+id/txtShopAddress"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/txtRestaurantName"
+                android:layout_toEndOf="@id/imgRestaurantLogo"
+                android:layout_marginStart="8dp"
+                android:text="Store address"
+                android:textSize="10sp"
+                android:textColor="@android:color/darker_gray" />
+        </RelativeLayout>
+
+        <!-- Food thumbnails row -->
+        <LinearLayout
+            android:id="@+id/layoutThumbnails"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="12dp">
+
+            <!-- Example product thumbnail -->
+            <FrameLayout
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_marginEnd="8dp">
+
+                <com.google.android.material.imageview.ShapeableImageView
+                    android:id="@+id/imgThumbExample"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:scaleType="centerCrop"
+                    android:adjustViewBounds="true"
+                    android:contentDescription="Product image"
+                    app:shapeAppearanceOverlay="@style/ThumbRoundedImage"
+                    app:strokeColor="@color/gray"
+                    app:strokeWidth="1dp"/>
+
+
+                <!-- Quantity badge overlay -->
+                <TextView
+                    android:id="@+id/txtQtyBadge"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="end|bottom"
+                    android:layout_margin="2dp"
+                    android:paddingHorizontal="3dp"
+                    android:paddingVertical="3dp"
+                    android:text="x2"
+                    android:textSize="5sp"
+                    android:textColor="@android:color/white"
+                    android:background="@drawable/circle_background"
+                    android:backgroundTint="@color/orange"/>
+            </FrameLayout>
+
+            <!-- Plus Button -->
+            <ImageButton
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:src="@drawable/positive_symbol"
+                android:background="@drawable/circle_border_gray"
+                android:contentDescription="Add more" />
+        </LinearLayout>
+
+        <!-- View Cart Button -->
+        <Button
+            android:id="@+id/btnViewCart"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:backgroundTint="@android:color/transparent"
+            android:text="View your cart"
+            android:textAllCaps="false"
+            android:textColor="@android:color/black"
+            style="@style/Widget.MaterialComponents.Button.OutlinedButton" />
+    </LinearLayout>
+</com.google.android.material.card.MaterialCardView>

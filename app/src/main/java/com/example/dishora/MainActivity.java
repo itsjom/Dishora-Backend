@@ -1,56 +1,47 @@
 package com.example.dishora;
 
+import android.content.Intent;
 import android.os.Bundle;
 
-import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 
-import com.example.dishora.databinding.ActivityMainBinding;
-import com.example.dishora.defaultUI.cartTab.CartFragment;
-import com.example.dishora.defaultUI.homeTab.HomeFragment;
-import com.example.dishora.defaultUI.inboxTab.InboxFragment;
-import com.example.dishora.defaultUI.profileTab.ProfileFragment;
-import com.example.dishora.defaultUI.vendorsTab.VendorsFragment;
+import com.example.dishora.defaultUI.CustomerMainActivity;
+import com.example.dishora.utils.SessionManager; // Import the SessionManager
+import com.example.dishora.vendorUI.VendorMainActivity;
 
 public class MainActivity extends AppCompatActivity {
-
-    ActivityMainBinding binding;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        EdgeToEdge.enable(this);
-        binding = ActivityMainBinding.inflate(getLayoutInflater());
-        setContentView(binding.getRoot());
-        replaceFragment(new HomeFragment());
+        // NOTE: We don't need to call EdgeToEdge or setContentView because this activity
+        // will immediately redirect and then finish(). It has no visible UI.
 
-        binding.bottomNavigationView.setOnItemSelectedListener(item -> {
-            int id =item.getItemId();
+        // Create an instance of the SessionManager to check the user's login state
+        SessionManager sessionManager = new SessionManager(this);
+        Intent intent;
 
-            if (id == R.id.home) {
-                replaceFragment(new HomeFragment());
-            } else if (id == R.id.cart) {
-                replaceFragment(new CartFragment());
-            } else if (id == R.id.inbox) {
-                replaceFragment(new InboxFragment());
-            } else if (id == R.id.vendors) {
-                replaceFragment(new VendorsFragment());
-            } else if (id == R.id.profile) {
-                replaceFragment(new ProfileFragment());
+        // Check if the user is logged in
+        if (sessionManager.isLoggedIn()) {
+            // User is logged in, now check if they are an approved vendor
+            // This logic matches what you have in your Login and Settings screens.
+            if (sessionManager.isVendor() && "Approved".equalsIgnoreCase(sessionManager.getVendorStatus())) {
+                // Redirect to the vendor dashboard
+                intent = new Intent(this, VendorMainActivity.class);
+            } else {
+                // User is a customer or a non-approved vendor, redirect to the customer screen
+                intent = new Intent(this, CustomerMainActivity.class);
             }
+        } else {
+            // User is not logged in, redirect to the Login screen
+            intent = new Intent(this, Login.class);
+        }
 
-            return true;
-        });
-    }
+        // Start the determined activity
+        startActivity(intent);
 
-    private  void replaceFragment(Fragment fragment){
-        FragmentManager fragmentManager =getSupportFragmentManager();
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.replace(R.id.fragment_container, fragment);
-        fragmentTransaction.commit();
+        // Call finish() to remove this MainActivity from the back stack.
+        // This prevents the user from pressing the back button and returning to a blank screen.
+        finish();
     }
 }

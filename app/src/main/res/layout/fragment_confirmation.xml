@@ -1,0 +1,207 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="16dp">
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/square"
+            android:backgroundTint="#fff"
+            android:padding="20dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Review Your Information"
+                android:textColor="@color/black"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:layout_marginBottom="24dp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Vendor Information"
+                style="@style/TextAppearance.MaterialComponents.Headline6"
+                android:layout_marginBottom="8dp"/>
+
+            <LinearLayout style="@style/ReviewRow">
+                <TextView
+                    style="@style/ReviewLabel"
+                    android:text="Full Name:" />
+                <TextView
+                    android:id="@+id/confirmFullName"
+                    style="@style/ReviewValue"
+                    tools:text="Juan Dela Cruz"/>
+            </LinearLayout>
+
+            <LinearLayout style="@style/ReviewRow">
+                <TextView
+                    style="@style/ReviewLabel"
+                    android:text="Phone Number:" />
+                <TextView
+                    android:id="@+id/confirmPhone"
+                    style="@style/ReviewValue"
+                    tools:text="0912-345-6789"/>
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Business Details"
+                style="@style/TextAppearance.MaterialComponents.Headline6"
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="8dp"/>
+
+            <LinearLayout style="@style/ReviewRow">
+                <TextView
+                    style="@style/ReviewLabel"
+                    android:text="Business Name:" />
+                <TextView
+                    android:id="@+id/confirmBusinessName"
+                    style="@style/ReviewValue"
+                    tools:text="Juan's Eatery"/>
+            </LinearLayout>
+
+            <LinearLayout style="@style/ReviewRow">
+                <TextView
+                    style="@style/ReviewLabel"
+                    android:text="Type:" />
+                <TextView
+                    android:id="@+id/confirmBusinessType"
+                    style="@style/ReviewValue"
+                    tools:text="Restaurant"/>
+            </LinearLayout>
+
+            <LinearLayout style="@style/ReviewRow">
+                <TextView
+                    style="@style/ReviewLabel"
+                    android:text="Description:" />
+                <TextView
+                    android:id="@+id/confirmDescription"
+                    style="@style/ReviewValue"
+                    android:maxLines="4"
+                    android:ellipsize="end"
+                    tools:text="Serving authentic Bicolano dishes since 2020. Come visit us!"/>
+            </LinearLayout>
+
+            <LinearLayout style="@style/ReviewRow">
+                <TextView
+                    style="@style/ReviewLabel"
+                    android:text="Location:" />
+                <TextView
+                    android:id="@+id/confirmLocation"
+                    style="@style/ReviewValue"
+                    tools:text="123 Main St, Pili, Camarines Sur"/>
+            </LinearLayout>
+
+            <LinearLayout style="@style/ReviewRow">
+                <TextView
+                    style="@style/ReviewLabel"
+                    android:text="Coordinates:" />
+                <TextView
+                    android:id="@+id/confirmCoordinates"
+                    style="@style/ReviewValue"
+                    tools:text="13.5833, 123.3167"/>
+            </LinearLayout>
+
+            <LinearLayout style="@style/ReviewRow">
+                <TextView
+                    style="@style/ReviewLabel"
+                    android:text="Opening Hours:" />
+                <TextView
+                    android:id="@+id/confirmOpeningHours"
+                    style="@style/ReviewValue"
+                    tools:text="Mon: 9:00 AM - 5:00 PM, ..."/>
+            </LinearLayout>
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Submitted Documents"
+                style="@style/TextAppearance.MaterialComponents.Headline6"
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="8dp"/>
+
+            <LinearLayout style="@style/ReviewRow">
+                <TextView
+                    style="@style/ReviewLabel"
+                    android:text="BIR Tax ID No:" />
+                <TextView
+                    android:id="@+id/confirmBIR"
+                    style="@style/ReviewValue"
+                    tools:text="123-456-789-000"/>
+            </LinearLayout>
+
+            <LinearLayout style="@style/ReviewRow">
+                <TextView
+                    style="@style/ReviewLabel"
+                    android:text="Business Permit No:" />
+                <TextView
+                    android:id="@+id/confirmPermit"
+                    style="@style/ReviewValue"
+                    tools:text="BP-2025-00123"/>
+            </LinearLayout>
+
+            <LinearLayout style="@style/ReviewRow">
+                <TextView
+                    style="@style/ReviewLabel"
+                    android:text="Valid ID:" />
+                <TextView
+                    android:id="@+id/confirmValidId"
+                    style="@style/ReviewValue"
+                    tools:text="Driver's License - X01-23-456789"/>
+            </LinearLayout>
+
+
+            <TextView
+                style="@style/ReviewLabel"
+                android:layout_marginTop="8dp"
+                android:text="Uploaded Files:" />
+            <TextView
+                android:id="@+id/confirmFiles"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="12sp"
+                android:textColor="@color/gray"
+                android:layout_marginStart="8dp"
+                android:layout_marginBottom="16dp"
+                tools:text="• Business Logo\n• BIR Registration\n• Business Permit\n• Valid ID\n• Mayor's Permit" />
+
+
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:gravity="end"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp">
+
+                <Button
+                    android:id="@+id/backButton"
+                    android:text="Back"
+                    style="@style/Widget.Material3.Button.OutlinedButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+                <Button
+                    android:id="@+id/submitButton"
+                    android:text="Submit"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:backgroundTint="@color/orange"/>
+            </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
+</FrameLayout>

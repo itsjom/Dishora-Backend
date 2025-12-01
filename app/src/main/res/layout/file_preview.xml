@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:padding="10dp"
+    android:gravity="center_vertical"
+    android:background="@drawable/bg_upload_container">
+
+    <!-- Thumbnail -->
+    <ImageView
+        android:id="@+id/imgThumbnail"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:scaleType="centerCrop"
+        android:contentDescription="@string/app_name" />
+
+    <!-- File name -->
+    <TextView
+        android:id="@+id/tvPreviewFileName"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:layout_marginStart="12dp"
+        android:text="filename.ext"
+        android:textSize="16sp"
+        android:textColor="#444444"
+        android:singleLine="true"
+        android:ellipsize="end" />
+
+    <!-- Action buttons container (so we can manage icon grouping nicely) -->
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="4dp">
+
+        <!-- View -->
+        <ImageButton
+            android:id="@+id/btnView"
+            android:layout_width="25dp"
+            android:layout_height="20dp"
+            android:layout_marginEnd="8dp"
+            android:background="@android:color/transparent"
+            android:padding="6dp"
+            android:src="@drawable/ic_eye"
+            app:tint="#666666"
+            android:visibility="gone" />
+
+        <!-- Download -->
+        <ImageButton
+            android:id="@+id/btnDownload"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_marginEnd="8dp"
+            android:background="@android:color/transparent"
+            android:padding="6dp"
+            android:src="@drawable/ic_download"
+            app:tint="#666666" />
+
+        <!-- Delete -->
+        <ImageButton
+            android:id="@+id/btnDelete"
+            android:layout_width="25dp"
+            android:layout_height="20dp"
+            android:background="@android:color/transparent"
+            android:padding="6dp"
+            android:src="@drawable/ic_close"
+            app:tint="#666666" />
+    </LinearLayout>
+</LinearLayout>

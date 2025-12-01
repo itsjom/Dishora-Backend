@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- Color when switch is ON (use a semi-transparent orange) -->
+    <item android:color="@color/orange" android:state_checked="true" android:alpha="0.5"/>
+    <!-- Color when switch is OFF -->
+    <item android:color="@color/light_gray" />
+</selector>

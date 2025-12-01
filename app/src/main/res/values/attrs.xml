@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="SquareStyle">
+        <attr name="customStrokeWidth" format="dimension"/>
+        <attr name="customStrokeColor" format="color"/>
+    </declare-styleable>
+</resources>

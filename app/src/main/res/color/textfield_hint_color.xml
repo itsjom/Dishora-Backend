@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- keep same (or slightly lighter) when focused -->
+    <item android:state_focused="true" android:color="@color/black" />
+    <!-- darker default hint -->
+    <item android:color="#1B1A1A" />
+</selector>

@@ -4,7 +4,18 @@
     <color name="white">#FFFFFFFF</color>
     <color name="colorPrimary">#FF9800</color>
     <color name="gray">#808080</color>
+    <color name="green">#008000</color>
     <color name="red">#FF0000</color>
     <color name="orange">#EA963C</color>
+    <color name="blue">#0B23A4</color>
     <color name="light_gray">#EDEDED</color>
+    <color name="charcoal">#36454F</color>
+    <color name="dijon_mustard">#E2CA73</color>
+    <color name="light_orange">#FFD580</color>
+    <color name="orange_20">#FFD58020</color>
+
+    <color name="toolbarBackground">#fff</color> <!-- light gray/blue -->
+    <color name="toolbarTextColor">#1E1E3F</color>  <!-- dark navy -->
+    <color name="toolbarIconColor">#1E1E3F</color>  <!-- same as text -->
+
 </resources>

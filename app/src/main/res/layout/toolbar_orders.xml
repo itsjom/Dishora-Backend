@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.appbar.MaterialToolbar xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/appToolbar"
+    android:layout_width="match_parent"
+    android:layout_height="?attr/actionBarSize"
+    android:theme="@style/ThemeOverlay.MaterialComponents.ActionBar"
+    app:contentInsetStart="0dp">
+
+    <!-- Navigation (Back arrow) -->
+    <ImageView
+        android:id="@+id/btnBack"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:padding="12dp"
+        android:src="@drawable/back_arrow"
+        android:contentDescription="Back"
+        app:tint="@color/toolbarIconColor" />
+
+    <!-- Title -->
+    <TextView
+        android:id="@+id/toolbarTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:gravity="center_vertical"
+        android:paddingStart="8dp"
+        android:text="Orders"
+        android:textColor="@color/toolbarTextColor"
+        android:textSize="20sp"
+        android:textStyle="bold" />
+
+    <!-- Right Action (Search) -->
+    <ImageView
+        android:id="@+id/btnSearch"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_gravity="end"
+        android:padding="12dp"
+        android:src="@drawable/search"
+        android:contentDescription="Search"
+        app:tint="@color/toolbarIconColor" />
+
+</com.google.android.material.appbar.MaterialToolbar>

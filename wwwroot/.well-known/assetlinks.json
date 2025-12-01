@@ -1,0 +1,9 @@
+[{
+  "relation": ["delegate_permission/common.handle_all_urls"],
+  "target": {
+    "namespace": "android_app",
+    "package_name": "com.example.dishora",
+    "sha256_cert_fingerprints":
+    ["F9:47:9D:D6:61:7F:BB:01:62:88:A8:1D:39:F6:83:88:A7:F9:95:90:10:0F:B4:33:CE:F9:3A:C1:A9:3F:91:8A"]
+  }
+}]

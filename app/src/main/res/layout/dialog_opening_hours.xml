@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:paddingStart="24dp"
+    android:paddingEnd="24dp"
+    android:paddingTop="20dp">
+
+    <include layout="@layout/layout_day_hours" android:id="@+id/hoursMon" />
+    <include layout="@layout/layout_day_hours" android:id="@+id/hoursTue" />
+    <include layout="@layout/layout_day_hours" android:id="@+id/hoursWed" />
+    <include layout="@layout/layout_day_hours" android:id="@+id/hoursThu" />
+    <include layout="@layout/layout_day_hours" android:id="@+id/hoursFri" />
+    <include layout="@layout/layout_day_hours" android:id="@+id/hoursSat" />
+    <include layout="@layout/layout_day_hours" android:id="@+id/hoursSun" />
+
+</LinearLayout>

@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="horizontal"
+    android:gravity="center_vertical"
+    android:paddingTop="4dp"
+    android:paddingBottom="4dp">
+
+    <com.google.android.material.switchmaterial.SwitchMaterial
+        android:id="@+id/daySwitch"
+        android:layout_width="100dp" android:layout_height="wrap_content"
+        tools:text="Mon"
+        android:checked="false"
+        android:fontFamily="@font/poppins"
+        android:textColor="#000"
+        android:textSize="14sp"/>
+
+    <TextView
+        android:id="@+id/dayHours"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:text="Closed"
+        android:gravity="start"
+        android:layout_marginStart="8dp"
+        android:fontFamily="@font/poppins"
+        android:textColor="@color/gray"
+        android:textSize="14sp"/>
+
+    <Button
+        android:id="@+id/btnEditHours"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Set"
+        style="@style/Widget.Material3.Button.TextButton"
+        android:visibility="gone"
+        tools:visibility="visible"/>
+
+</LinearLayout>

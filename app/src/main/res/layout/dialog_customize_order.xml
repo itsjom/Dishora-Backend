@@ -1,0 +1,222 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@drawable/bg_popup">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="16dp">
+
+        <!-- Title -->
+        <TextView
+            android:id="@+id/tvTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Customize your order!"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:textColor="@color/black"
+            android:layout_gravity="center"/>
+
+        <!-- Food Image -->
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cardFoodImage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="12dp"
+            android:padding="10dp"
+            app:cardUseCompatPadding="true"
+            app:cardPreventCornerOverlap="false"
+            app:cardCornerRadius="15dp">
+
+            <ImageView
+                android:id="@+id/imgFood"
+                android:layout_width="150dp"
+                android:layout_height="150dp"
+                android:layout_gravity="center"
+                android:adjustViewBounds="true"
+                android:scaleType="fitCenter"
+                android:src="@drawable/chicken_inasal" />
+        </androidx.cardview.widget.CardView>
+
+
+        <!-- Food Name -->
+        <TextView
+            android:id="@+id/tvFoodName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Chicken Inasal"
+            android:textStyle="bold"
+            android:textSize="16sp"
+            android:textColor="@color/black"
+            android:layout_marginTop="12dp"/>
+
+<!--        &lt;!&ndash; Size &ndash;&gt;-->
+<!--        <TextView-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:text="Size (Pick 1)"-->
+<!--            android:textStyle="bold"-->
+<!--            android:textColor="@color/black"-->
+<!--            android:layout_marginTop="12dp"/>-->
+<!--        <RadioGroup-->
+<!--            android:id="@+id/rgSize"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content">-->
+<!--            <RadioButton-->
+<!--                android:id="@+id/rbSmall"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:text="S   ₱100"/>-->
+<!--            <RadioButton-->
+<!--                android:id="@+id/rbMedium"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:text="M   ₱130"/>-->
+<!--            <RadioButton-->
+<!--                android:id="@+id/rbLarge"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:text="L   ₱160"/>-->
+<!--        </RadioGroup>-->
+
+<!--        <View-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="1dp"-->
+<!--            android:layout_marginTop="4dp"-->
+<!--            android:background="#A0A0A0" />-->
+
+
+<!--        &lt;!&ndash; Veggies &ndash;&gt;-->
+<!--        <TextView-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:text="Veggie"-->
+<!--            android:textStyle="bold"-->
+<!--            android:textColor="@color/black"-->
+<!--            android:layout_marginTop="12dp"/>-->
+<!--        <CheckBox-->
+<!--            android:id="@+id/cbMushroom"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:text="Mushroom  ₱20"/>-->
+<!--        <CheckBox-->
+<!--            android:id="@+id/cbCarrots"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:text="Carrots  ₱20"/>-->
+<!--        <CheckBox-->
+<!--            android:id="@+id/cbBroccoli"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:text="Broccoli  ₱20"/>-->
+<!--        <CheckBox-->
+<!--            android:id="@+id/cbCorn"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:text="Corn  ₱20"/>-->
+<!--        <CheckBox-->
+<!--            android:id="@+id/cbCapsicum"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:text="Capsicum  ₱20"/>-->
+
+<!--        <View-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="1dp"-->
+<!--            android:layout_marginTop="4dp"-->
+<!--            android:background="#A0A0A0" />-->
+
+<!--        &lt;!&ndash; Spiciness &ndash;&gt;-->
+<!--        <TextView-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:text="Spiciness"-->
+<!--            android:textStyle="bold"-->
+<!--            android:textColor="@color/black"-->
+<!--            android:layout_marginTop="12dp"/>-->
+<!--        <RadioGroup-->
+<!--            android:id="@+id/rgSpiciness"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content">-->
+<!--            <RadioButton-->
+<!--                android:id="@+id/rbNo"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:text="No"/>-->
+<!--            <RadioButton-->
+<!--                android:id="@+id/rbHot"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:text="Hot"/>-->
+<!--            <RadioButton-->
+<!--                android:id="@+id/rbVeryHot"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:text="Very Hot"/>-->
+<!--        </RadioGroup>-->
+
+<!--        <View-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="1dp"-->
+<!--            android:layout_marginTop="4dp"-->
+<!--            android:background="#A0A0A0" />-->
+
+        <!-- Note -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Note"
+            android:textStyle="bold"
+            android:textColor="@color/black"
+            android:layout_marginTop="12dp"/>
+
+        <EditText
+            android:id="@+id/etNote"
+            android:background="@drawable/square"
+            android:backgroundTint="#F3F3F3"
+            android:layout_width="match_parent"
+            android:layout_height="80dp"
+            android:gravity="top|start"
+            android:textSize="12sp"
+            android:padding="8dp"
+            android:inputType="text"
+            android:hint="e.g. less salt, less oil"
+            android:layout_marginTop="12dp"/>
+
+        <!-- Buttons -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center"
+            android:layout_marginTop="16dp">
+
+            <Button
+                android:id="@+id/btnCancel"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:backgroundTint="#fff"
+                android:text="Cancel"
+                android:textColor="@color/black"
+                app:strokeColor="#D5D5D5"
+                app:strokeWidth="1dp"/>
+
+            <Button
+                android:id="@+id/btnApply"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:backgroundTint="@color/colorPrimary"
+                android:text="Apply"
+                android:layout_marginStart="8dp"/>
+        </LinearLayout>
+
+    </LinearLayout>
+</ScrollView>

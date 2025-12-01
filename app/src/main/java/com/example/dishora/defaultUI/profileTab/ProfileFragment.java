@@ -11,6 +11,7 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.dishora.R;
@@ -28,6 +29,21 @@ public class ProfileFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_profile, container, false);
+
+        // Toolbar
+        ImageView btnBack = view.findViewById(R.id.btnBack);
+        TextView toolbarTitle = view.findViewById(R.id.toolbarTitle);
+        ImageView btnSearch = view.findViewById(R.id.btnSearch);
+        toolbarTitle.setText("Profile");
+
+        // Back button
+        btnBack.setOnClickListener(v -> {
+            // Get the bottom nav from the Activity
+            com.google.android.material.bottomnavigation.BottomNavigationView bottomNav =
+                    requireActivity().findViewById(R.id.customerBottomNavigationView);
+            // Trigger selecting the Home tab
+            bottomNav.setSelectedItemId(R.id.home);
+        });
 
         userTextView = view.findViewById(R.id.usernameTextView); // Make sure your XML has this ID
         emailTextView = view.findViewById(R.id.emailTextView);       // And this one too

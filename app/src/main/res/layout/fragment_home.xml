@@ -1,377 +1,236 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
-    tools:context=".defaultUI.homeTab.HomeFragment">
+    android:orientation="vertical">
 
+    <include
+        android:id="@+id/toolbar_home"
+        layout="@layout/toolbar_home" />
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:layout_marginStart="1dp"
+        android:layout_marginTop="1dp"
+        android:layout_marginEnd="1dp"
+        android:layout_marginBottom="1dp">
 
-        <ScrollView
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginStart="1dp"
-            android:layout_marginTop="1dp"
-            android:layout_marginEnd="1dp"
-            android:layout_marginBottom="1dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical" >
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
 
-                <androidx.constraintlayout.widget.ConstraintLayout
+                <TextView
+                    android:id="@+id/textView10"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:text="What would you like to eat today?" />
+
+                <TextView
+                    android:id="@+id/textView11"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:text="Search below." />
+
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/searchBarCard"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent">
+                    android:layout_height="56dp"
+                    android:layout_margin="10dp"
+                    android:backgroundTint="@android:color/white"
+                    app:cardCornerRadius="15dp"
+                    app:cardElevation="2dp">
 
-                    <androidx.constraintlayout.widget.ConstraintLayout
-                        android:id="@+id/headerLayout"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintHorizontal_bias="0.0"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent">
-
-                        <TextView
-                            android:id="@+id/greetTextView"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:layout_marginStart="24dp"
-                            android:fontFamily="@font/alata"
-                            android:text="Hi, User"
-                            android:textColor="@color/black"
-                            android:textSize="25sp"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toTopOf="parent" />
-
-                        <RelativeLayout
-                            android:id="@+id/relativeLayout"
-                            android:layout_width="46dp"
-                            android:layout_height="42dp"
-                            android:layout_marginStart="201dp"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintStart_toEndOf="@+id/greetTextView"
-                            app:layout_constraintTop_toTopOf="parent">
-
-                            <TextView
-                                android:id="@+id/notificationCount"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_alignTop="@id/notification_icon"
-                                android:layout_alignEnd="@id/notification_icon"
-                                android:background="@drawable/badge_background"
-                                android:paddingStart="4dp"
-                                android:paddingEnd="4dp"
-                                android:textColor="@android:color/white"
-                                android:textSize="12sp"
-                                android:visibility="gone" />
-
-                            <ImageView
-                                android:id="@+id/notification_icon"
-                                android:layout_width="294dp"
-                                android:layout_height="194dp"
-                                app:srcCompat="@mipmap/ic_notification_bell_foreground"
-                                app:tint="#EA963C" />
-                        </RelativeLayout>
-
-<!--                        <FrameLayout-->
-<!--                            android:layout_width="356dp"-->
-<!--                            android:layout_height="wrap_content"-->
-<!--                            android:layout_marginTop="15dp"-->
-<!--                            android:clickable="true"-->
-<!--                            android:elevation="10dp"-->
-<!--                            app:layout_constraintEnd_toEndOf="parent"-->
-<!--                            app:layout_constraintStart_toStartOf="parent"-->
-<!--                            app:layout_constraintTop_toBottomOf="@+id/textView11">-->
-
-<!--                            <androidx.appcompat.widget.SearchView-->
-<!--                                android:id="@+id/searchView"-->
-<!--                                android:layout_width="match_parent"-->
-<!--                                android:layout_height="50dp"-->
-<!--                                android:background="@drawable/rounded_searchview"-->
-<!--                                android:iconifiedByDefault="false"-->
-<!--                                android:paddingEnd="56dp" />-->
-<!--                      -->
-<!--                            <ImageButton-->
-<!--                                android:id="@+id/filterButton"-->
-<!--                                android:layout_width="40dp"-->
-<!--                                android:layout_height="40dp"-->
-<!--                                android:layout_gravity="end|center_vertical"-->
-<!--                                android:layout_marginEnd="8dp"-->
-<!--                                android:background="@drawable/orange_circle_background"-->
-<!--                                android:contentDescription="Filter"-->
-<!--                                android:src="@drawable/filter__1_"-->
-<!--                                app:tint="@android:color/white" />-->
-<!--                        </FrameLayout>-->
-
-                        <com.google.android.material.card.MaterialCardView
-                            android:id="@+id/searchBarCard"
-                            android:layout_width="match_parent"
-                            android:layout_height="56dp"
-                            android:layout_margin="16dp"
-                            android:backgroundTint="@android:color/white"
-                            app:cardCornerRadius="15dp"
-                            app:cardElevation="2dp"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toBottomOf="@+id/textView11">
-
-                            <LinearLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="match_parent"
-                                android:gravity="center_vertical"
-                                android:orientation="horizontal"
-                                android:paddingHorizontal="12dp">
-
-                                <!-- Search Icon -->
-                                <ImageView
-                                    android:layout_width="24dp"
-                                    android:layout_height="24dp"
-                                    android:contentDescription="Search"
-                                    android:src="@drawable/search"
-                                    app:tint="#999999" />
-
-                                <!-- Search Input -->
-                                <EditText
-                                    android:id="@+id/searchEditText"
-                                    android:layout_width="0dp"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginStart="8dp"
-                                    android:layout_weight="1"
-                                    android:background="@null"
-                                    android:hint="Search for.."
-                                    android:imeOptions="actionSearch"
-                                    android:singleLine="true"
-                                    android:textColor="@android:color/black"
-                                    android:textColorHint="#999999" />
-
-                                <!-- Filter Button -->
-                                <ImageButton
-                                    android:id="@+id/btnFilter"
-                                    android:layout_width="40dp"
-                                    android:layout_height="40dp"
-                                    android:background="@drawable/orange_circle_background"
-                                    android:contentDescription="Filter"
-                                    android:padding="8dp"
-                                    android:src="@drawable/filter__1_"
-                                    app:tint="@android:color/white" />
-                            </LinearLayout>
-                        </com.google.android.material.card.MaterialCardView>
-
-                        <TextView
-                            android:id="@+id/textView10"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="2dp"
-                            android:text="What would you like to eat today?"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintHorizontal_bias="0.119"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toBottomOf="@+id/greetTextView" />
-
-                        <TextView
-                            android:id="@+id/textView11"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Search below."
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintHorizontal_bias="0.074"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toBottomOf="@+id/textView10" />
-                    </androidx.constraintlayout.widget.ConstraintLayout>
-
-                    <FrameLayout
-                        android:id="@+id/slideshowLayout"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="1dp"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/headerLayout">
-
-                        <androidx.viewpager2.widget.ViewPager2
-                            android:id="@+id/viewPager1"
-                            android:layout_width="match_parent"
-                            android:layout_height="232dp"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintHorizontal_bias="1.0"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toBottomOf="@+id/view5" />
-
-                        <me.relex.circleindicator.CircleIndicator3
-                            android:id="@+id/cardIndicator"
-                            android:layout_width="96dp"
-                            android:layout_height="26dp"
-                            android:layout_gravity="bottom|center_horizontal"
-                            android:layout_marginBottom="12dp"
-                            android:padding="4dp"
-                            android:visibility="visible"
-                            app:ci_drawable="@drawable/indicator_selected"
-                            app:ci_drawable_unselected="@drawable/indicator_unselected"
-                            app:ci_height="8dp"
-                            app:ci_margin="6dp"
-                            app:ci_width="8dp" />
-
-                    </FrameLayout>
-
-                    <!-- Category Section -->
                     <LinearLayout
-                        android:id="@+id/categoryContainer"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:layout_marginTop="10dp"
-                        android:orientation="vertical"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/slideshowLayout">
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal"
+                        android:paddingHorizontal="12dp">
 
-                        <TextView
-                            android:id="@+id/textView"
-                            android:layout_width="wrap_content"
+                        <ImageView
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
+                            android:contentDescription="Search"
+                            android:src="@drawable/search"
+                            app:tint="#999999" />
+
+                        <EditText
+                            android:id="@+id/searchEditText"
+                            android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:fontFamily="@font/alata"
-                            android:layout_marginStart="16dp"
-                            android:text="Categories"
-                            android:textColor="@color/black"
-                            android:textStyle="bold"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintHorizontal_bias="0.0"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toTopOf="parent" />
-
-                        <HorizontalScrollView
-                            android:id="@+id/categoryScrollView"
-                            android:layout_width="match_parent"
-                            android:layout_height="42dp"
-                            android:fillViewport="true"
-                            android:scrollbars="none"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintHorizontal_bias="0.0"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toBottomOf="@+id/textView">
-
-                            <LinearLayout
-                                android:id="@+id/categoryBtnContainer"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:orientation="horizontal" />
-                        </HorizontalScrollView>
-
-                        <FrameLayout
-                            android:id="@+id/categoryFrgmentContainer"
-                            android:layout_width="match_parent"
-                            android:layout_height="0dp"
+                            android:layout_marginStart="8dp"
                             android:layout_weight="1"
-                            android:layout_marginStart="16dp"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintHorizontal_bias="0.0"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toBottomOf="@+id/textView" />
+                            android:background="@null"
+                            android:hint="Search for.."
+                            android:imeOptions="actionSearch"
+                            android:singleLine="true"
+                            android:textColor="@android:color/black"
+                            android:textColorHint="#999999" />
+
+                        <ImageButton
+                            android:id="@+id/btnFilter"
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
+                            android:background="@drawable/orange_circle_background"
+                            android:contentDescription="Filter"
+                            android:padding="8dp"
+                            android:src="@drawable/filter__1_"
+                            app:tint="@android:color/white" />
                     </LinearLayout>
-
-                    <!-- Featured Section -->
-                    <LinearLayout
-                        android:id="@+id/featuredContainer"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:orientation="vertical"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/categoryContainer">
-
-                        <TextView
-                            android:id="@+id/textView6"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="2dp"
-                            android:fontFamily="@font/alata"
-                            android:layout_marginStart="16dp"
-                            android:text="Featured Deals"
-                            android:textColor="@color/black"
-                            android:textStyle="bold"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintHorizontal_bias="0.0"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toBottomOf="@id/categoryScrollView" />
-
-                        <HorizontalScrollView
-                            android:id="@+id/featuredScrollView"
-                            android:layout_width="match_parent"
-                            android:layout_height="42dp"
-                            android:fillViewport="true"
-                            android:scrollbars="none"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toBottomOf="@+id/textView6">
-
-                            <LinearLayout
-                                android:id="@+id/featuredBtnContainer"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:orientation="horizontal" />
-                        </HorizontalScrollView>
-
-                        <FrameLayout
-                            android:id="@+id/featuredFrgmentContainer"
-                            android:layout_width="match_parent"
-                            android:layout_height="0dp"
-                            android:layout_weight="1"
-                            android:layout_marginStart="16dp"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toBottomOf="@+id/textView6"
-                            tools:layout_editor_absoluteX="0dp"
-                            tools:layout_editor_absoluteY="167dp"/>
-                    </LinearLayout>
-
-                    <!-- Vendor Section -->
-                    <LinearLayout
-                        android:id="@+id/vendorContainer"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:orientation="vertical"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/featuredContainer">
-
-                        <TextView
-                            android:id="@+id/textView8"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:fontFamily="@font/alata"
-                            android:layout_marginStart="16dp"
-                            android:text="Vendors"
-                            android:textColor="@color/black"
-                            android:textStyle="bold" />
-
-                        <HorizontalScrollView
-                            android:id="@+id/vendorScrollView"
-                            android:layout_width="match_parent"
-                            android:layout_height="42dp">
-
-                            <LinearLayout
-                                android:layout_width="wrap_content"
-                                android:layout_height="match_parent"
-                                android:orientation="vertical" />
-                        </HorizontalScrollView>
-
-                    </LinearLayout>
-
-
-
-                </androidx.constraintlayout.widget.ConstraintLayout>
+                </com.google.android.material.card.MaterialCardView>
             </LinearLayout>
-        </ScrollView>
-    </androidx.constraintlayout.widget.ConstraintLayout>
-</FrameLayout>
+
+            <FrameLayout
+                android:id="@+id/slideshowLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <androidx.viewpager2.widget.ViewPager2
+                    android:id="@+id/viewPager1"
+                    android:layout_width="match_parent"
+                    android:layout_height="232dp" />
+
+                <me.relex.circleindicator.CircleIndicator3
+                    android:id="@+id/cardIndicator"
+                    android:layout_width="96dp"
+                    android:layout_height="26dp"
+                    android:layout_gravity="bottom|center_horizontal"
+                    android:layout_marginBottom="12dp"
+                    android:padding="4dp"
+                    android:visibility="visible"
+                    app:ci_drawable="@drawable/indicator_selected"
+                    app:ci_drawable_unselected="@drawable/indicator_unselected"
+                    app:ci_height="8dp"
+                    app:ci_margin="6dp"
+                    app:ci_width="8dp" />
+            </FrameLayout>
+
+            <LinearLayout
+                android:id="@+id/categoryContainer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/textView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:fontFamily="@font/alata"
+                    android:text="Categories"
+                    android:textColor="@color/black"
+                    android:textStyle="bold" />
+
+                <HorizontalScrollView
+                    android:id="@+id/categoryScrollView"
+                    android:layout_width="match_parent"
+                    android:layout_height="42dp"
+                    android:fillViewport="true"
+                    android:scrollbars="none">
+
+                    <LinearLayout
+                        android:id="@+id/categoryBtnContainer"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal" />
+                </HorizontalScrollView>
+
+                <FrameLayout
+                    android:id="@+id/categoryFrgmentContainer"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/featuredContainer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/textView6"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="2dp"
+                    android:fontFamily="@font/alata"
+                    android:text="Featured Deals"
+                    android:textColor="@color/black"
+                    android:textStyle="bold" />
+
+                <HorizontalScrollView
+                    android:id="@+id/featuredScrollView"
+                    android:layout_width="match_parent"
+                    android:layout_height="42dp"
+                    android:fillViewport="true"
+                    android:scrollbars="none">
+
+                    <LinearLayout
+                        android:id="@+id/featuredBtnContainer"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal" />
+                </HorizontalScrollView>
+
+                <FrameLayout
+                    android:id="@+id/featuredFrgmentContainer"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/vendorContainer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/textView8"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginBottom="8dp"
+                    android:fontFamily="@font/alata"
+                    android:text="Vendors Nearby"
+                    android:textColor="@color/black"
+                    android:textStyle="bold" />
+
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:minHeight="120dp"> <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/vendorRecyclerView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:clipToPadding="false"
+                    android:paddingStart="16dp"
+                    android:paddingEnd="16dp"
+                    android:visibility="gone" />
+
+                    <ProgressBar
+                    android:id="@+id/vendorProgressBar"
+                    style="?android:attr/progressBarStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:visibility="visible" /> </FrameLayout>
+
+            </LinearLayout>
+
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>

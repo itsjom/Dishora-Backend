@@ -1,0 +1,16 @@
+<!-- res/values/arrays.xml -->
+<resources>
+    <string-array name="valid_id_options">
+        <item>Select ID Type</item>
+        <item>Unified Multi-Purpose Identification (UMID) Card</item>
+        <item>Social Security System (SSS) Card</item>
+        <item>GSIS Card</item>
+        <item>Driver’s License</item>
+        <item>Philippine Passport</item>
+        <item>PhilHealth ID</item>
+        <item>PhilID / ePhilID (PhilSys)</item>
+        <item>PRC ID</item>
+        <item>Alien Certification of Registration</item>
+        <item>Foreign Passport</item>
+    </string-array>
+</resources>

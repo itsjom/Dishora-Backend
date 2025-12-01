@@ -1,20 +1,28 @@
 package com.example.dishora.defaultUI.homeTab;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.graphics.Outline;
 import android.os.Build;
 import android.os.Bundle;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.widget.SearchView;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager2.widget.ViewPager2;
 
 import android.os.Handler;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -26,22 +34,37 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar; // <-- ADD THIS IMPORT
 import android.widget.TextView;
+import android.widget.Toast;
+
+import androidx.appcompat.widget.Toolbar;
 
 import com.example.dishora.R;
 import com.example.dishora.adapters.ImageAdapter;
+import com.example.dishora.defaultUI.homeTab.vendorSection.VendorAdapter;
+import com.example.dishora.defaultUI.homeTab.cart.CustomerCartActivity;
 import com.example.dishora.defaultUI.homeTab.categorySection.CategoryFrag;
 import com.example.dishora.defaultUI.homeTab.featuredDealsSection.FeatureCategoryFrag;
 import com.example.dishora.defaultUI.homeTab.search.SearchFragment;
 import com.example.dishora.defaultUI.homeTab.search.filter.FilterFragment;
+import com.example.dishora.defaultUI.homeTab.vendorSection.Vendor;
+import com.example.dishora.network.ApiClient;
+import com.example.dishora.defaultUI.homeTab.vendorSection.api.VendorNearbyApi;
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationServices;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import me.relex.circleindicator.CircleIndicator3;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class HomeFragment extends Fragment {
 
+    // (Your other variables are unchanged)
     private SearchView searchView;
     private LinearLayout categoryContainer, featuredContainer;
     private CircleIndicator3 indicator;
@@ -51,38 +74,60 @@ public class HomeFragment extends Fragment {
     private Handler handler = new Handler();
     private Runnable carouselRunnable;
     private int currentPage = 0;
-
+    private TextView toolbarTitle;
     private final String[] categories = {"All", "Gluten-free", "Vegetarian", "Vegan", "Buffet", "Drinks", "Desserts", "Specials"};
     private final String[] featureCategories = {"All", "Platter", "Combo", "Family", "Solo"};
-
     private TextView selectedCategoryBtn = null;
     private TextView selectedFeatureBtn = null;
+    private FusedLocationProviderClient fusedLocationClient;
+    private ActivityResultLauncher<String> requestPermissionLauncher;
+    private double userLatitude = 0.0;
+    private double userLongitude = 0.0;
+
+    // VENDORS
+    private RecyclerView vendorRecyclerView;
+    private VendorAdapter vendorAdapter;
+    private List<Vendor> vendorList;
+    private ProgressBar vendorProgressBar; // <-- ADD THIS
+
+    // API
+    private VendorNearbyApi apiService;
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        // Initialize ApiService using your ApiClient (the no-auth version)
+        apiService = ApiClient.getBackendClient().create(VendorNearbyApi.class);
+
+        fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireActivity());
+
+        // Initialize the permission request launcher
+        requestPermissionLauncher =
+                registerForActivityResult(new ActivityResultContracts.RequestPermission(), isGranted -> {
+                    if (isGranted) {
+                        // Permission is granted. Get the location.
+                        getDeviceLocation();
+                    } else {
+                        // Permission denied.
+                        Toast.makeText(getContext(), "Permission denied. Showing all vendors.", Toast.LENGTH_SHORT).show();
+                        // Call the vendor setup without location
+                        setupVendorList();
+                    }
+                });
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_home, container, false);
 
-        TextView greetingText = view.findViewById(R.id.greetTextView);
+        // Toolbar
+        toolbarTitle = view.findViewById(R.id.toolbarTitle);
+        toolbarTitle.setText("Profile");
+
         SharedPreferences prefs = requireContext().getSharedPreferences("MyPreferences", Context.MODE_PRIVATE);
         String username = prefs.getString("username", "User");
-        greetingText.setText("Hi, " + capitalizeFirstLetter(username));
-
-//        searchView = view.findViewById(R.id.searchView);
-//        setupSearchView();
-//        customizeSearchView();
-
-        // Find the search plate (the underline container inside SearchView)
-//        View searchPlate = searchView.findViewById(androidx.appcompat.R.id.search_plate);
-
-        // Remove the background (which draws the underline)
-//        if (searchPlate != null) {
-//            searchPlate.setBackground(null); // removes underline
-//        }
-
-//        ImageView closeButton = searchView.findViewById(androidx.appcompat.R.id.search_close_btn);
-//        if (closeButton != null) {
-//            closeButton.setBackground(null); // removes ripple effect
-//        }
+        toolbarTitle.setText("Hi, " + capitalizeFirstLetter(username));
 
         viewPager = view.findViewById(R.id.viewPager1);
         indicator = view.findViewById(R.id.cardIndicator);
@@ -90,15 +135,30 @@ public class HomeFragment extends Fragment {
 
         categoryContainer = view.findViewById(R.id.categoryBtnContainer);
         featuredContainer = view.findViewById(R.id.featuredBtnContainer);
+        vendorRecyclerView = view.findViewById(R.id.vendorRecyclerView);
+        vendorProgressBar = view.findViewById(R.id.vendorProgressBar); // <-- FIND THE VIEW
 
         setupCarousel();
         setupCategoryButtons();
         setupFeatureButtons();
 
+        checkLocationPermissionAndFetchVendors();
+
+        // (Your listeners are unchanged)
         EditText homeSearchEditText = view.findViewById(R.id.searchEditText);
         ImageButton btnHomeFilter = view.findViewById(R.id.btnFilter);
 
-        // typing listener
+        ImageView ivCart = view.findViewById(R.id.ivCart);
+        ivCart.setOnClickListener(v -> {
+            Intent intent = new Intent(getContext(), CustomerCartActivity.class);
+            startActivity(intent);
+        });
+
+        ImageView ivNotification = view.findViewById(R.id.ivNotification);
+        ivNotification.setOnClickListener(v -> {
+            Toast.makeText(getContext(), "Notifications clicked", Toast.LENGTH_SHORT).show();
+        });
+
         homeSearchEditText.setOnEditorActionListener((textView, actionId, event) -> {
             if (actionId == EditorInfo.IME_ACTION_SEARCH ||
                     (event != null && event.getKeyCode() == KeyEvent.KEYCODE_ENTER && event.getAction() == KeyEvent.ACTION_DOWN)) {
@@ -112,12 +172,10 @@ public class HomeFragment extends Fragment {
             return false;
         });
 
-        // filter button click
         btnHomeFilter.setOnClickListener(v -> {
-            // Example: navigate to filter fragment
             requireActivity().getSupportFragmentManager()
                     .beginTransaction()
-                    .replace(R.id.fragment_container, new FilterFragment()) // change to your filter fragment
+                    .replace(R.id.fragment_container, new FilterFragment())
                     .addToBackStack(null)
                     .commit();
         });
@@ -125,10 +183,33 @@ public class HomeFragment extends Fragment {
         return view;
     }
 
+    private void checkLocationPermissionAndFetchVendors() {
+        if (ContextCompat.checkSelfPermission(
+                requireContext(), android.Manifest.permission.ACCESS_FINE_LOCATION) ==
+                PackageManager.PERMISSION_GRANTED) {
+            getDeviceLocation();
+        } else {
+            requestPermissionLauncher.launch(android.Manifest.permission.ACCESS_FINE_LOCATION);
+        }
+    }
+
+    @SuppressLint("MissingPermission")
+    private void getDeviceLocation() {
+        fusedLocationClient.getLastLocation()
+                .addOnSuccessListener(requireActivity(), location -> {
+                    if (location != null) {
+                        userLatitude = location.getLatitude();
+                        userLongitude = location.getLongitude();
+                    } else {
+                        Toast.makeText(getContext(), "Could not get location. Using default.", Toast.LENGTH_SHORT).show();
+                    }
+                    setupVendorList();
+                });
+    }
+
     private void openSearchFragment(String query) {
         SearchFragment searchFragment = new SearchFragment();
 
-        // Pass query to SearchFragment
         Bundle bundle = new Bundle();
         bundle.putString("search_query", query);
         searchFragment.setArguments(bundle);
@@ -140,134 +221,12 @@ public class HomeFragment extends Fragment {
                 .commit();
     }
 
-//    private void performHomeSearch(String query) {
-//        // You can either:
-//        // 1. Start SearchFragment with the query
-//        // 2. Or filter your RecyclerView directly
-//        Bundle bundle = new Bundle();
-//        bundle.putString("query", query);
-//
-//        SearchFragment searchFragment = new SearchFragment();
-//        searchFragment.setArguments(bundle);
-//
-//        requireActivity().getSupportFragmentManager()
-//                .beginTransaction()
-//                .replace(R.id.fragment_container, searchFragment)
-//                .addToBackStack(null)
-//                .commit();
-//    }
-
-//    private void setupSearchView() {
-//        // Make the SearchView clickable
-//        searchView.setFocusable(false);
-//        searchView.setClickable(true);
-//        searchView.clearFocus();
-//
-//        // Click listener for entire SearchView
-//        searchView.setOnClickListener(v -> {
-//            // Hide search icon
-//            searchView.setIconified(false);
-//            searchView.setQueryHint(""); // optional: remove hint text too
-//
-//            // Also remove the search icon manually
-//            int searchIconId = searchView.getContext()
-//                    .getResources()
-//                    .getIdentifier("android:id/search_mag_icon", null, null);
-//            ImageView searchIcon = searchView.findViewById(searchIconId);
-//            if (searchIcon != null) {
-//                searchIcon.setImageDrawable(null); // removes icon image
-//            }
-//
-//            openSearchFragment(""); // Your method to open SearchFragment
-//        });
-//
-//        // Optional: Restore icon when losing focus
-//        searchView.setOnQueryTextFocusChangeListener((v, hasFocus) -> {
-//            if (!hasFocus) {
-//                int searchIconId = searchView.getContext()
-//                        .getResources()
-//                        .getIdentifier("android:id/search_mag_icon", null, null);
-//                ImageView searchIcon = searchView.findViewById(searchIconId);
-//                if (searchIcon != null) {
-//                    searchIcon.setImageResource(android.R.drawable.ic_menu_search); // restore icon
-//                }
-//            }
-//        });
-//
-//        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-//            @Override
-//            public boolean onQueryTextSubmit(String query) {
-//                // Bundle to send the search term
-//                Bundle bundle = new Bundle();
-//                bundle.putString("query", query);
-//
-//                SearchFragment searchFragment = new SearchFragment();
-//                searchFragment.setArguments(bundle);
-//
-//                // Navigate to SearchFragment
-//                requireActivity().getSupportFragmentManager()
-//                        .beginTransaction()
-//                        .replace(R.id.fragment_container, searchFragment)
-//                        .addToBackStack(null)
-//                        .commit();
-//
-//                return true;
-//            }
-//
-//            @Override
-//            public boolean onQueryTextChange(String newText) {
-//                return false;
-//            }
-//        });
-//    }
-
-//    private void customizeSearchView() {
-//        // Remove underline (search_plate)
-//        View searchPlate = searchView.findViewById(androidx.appcompat.R.id.search_plate);
-//        if (searchPlate != null) {
-//            searchPlate.setBackground(null);
-//        }
-//
-//        // Remove ripple from close button
-//        ImageView closeButton = searchView.findViewById(androidx.appcompat.R.id.search_close_btn);
-//        if (closeButton != null) {
-//            closeButton.setBackground(null);
-//        }
-//
-//        // Remove ripple from search icon as well
-//        ImageView searchIcon = searchView.findViewById(androidx.appcompat.R.id.search_mag_icon);
-//        if (searchIcon != null) {
-//            searchIcon.setBackground(null);
-//        }
-//
-//        // Apply your custom rounded background to the whole SearchView
-//        searchView.setBackgroundResource(R.drawable.rounded_searchview);
-//
-//        // Remove extra paddings (default SearchView adds them internally)
-//        searchView.setIconifiedByDefault(false);
-//        searchView.setQueryHint("Search..."); // optional
-//    }
-
-//    private void openSearchFragment(String query) {
-//        Bundle bundle = new Bundle();
-//        bundle.putString("query", query);
-//
-//        SearchFragment searchFragment = new SearchFragment();
-//        searchFragment.setArguments(bundle);
-//
-//        requireActivity().getSupportFragmentManager()
-//                .beginTransaction()
-//                .replace(R.id.fragment_container, searchFragment) // Use your actual container ID
-//                .addToBackStack(null)
-//                .commit();
-//    }
-
-
     private void setupCarousel() {
+        // (Unchanged)
         imageList = new ArrayList<>();
-        imageList.add("https://www.seriouseats.com/thmb/sNOqOuOaiILj05PSuunyT3FuyPY=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc()/Filipino-Features-Soups-and-Stews-1e81ba12ce10481caf3ff58981c347ab.jpg");
-        imageList.add("https://www.seriouseats.com/thmb/bRjLgLzq4vIoDCjQcCuWg_bRAQo=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc()/Filipino-Features-Pulutan-f41edbc2a3f548f3bfe893160de7af1e.jpg");
-        imageList.add("https://shef.com/homemade-food/wp-content/uploads/filipino-food-philippines-history-homemade.jpeg");
+        imageList.add("https...jpg");
+        imageList.add("https...jpg");
+        imageList.add("https...jpeg");
 
         imageAdapter = new ImageAdapter(requireContext(), imageList);
         viewPager.setAdapter(imageAdapter);
@@ -276,6 +235,7 @@ public class HomeFragment extends Fragment {
     }
 
     private void autoScrollCarousel() {
+        // (Unchanged)
         carouselRunnable = () -> {
             if (currentPage >= imageList.size()) currentPage = 0;
             viewPager.setCurrentItem(currentPage++, true);
@@ -285,30 +245,92 @@ public class HomeFragment extends Fragment {
     }
 
     private void setupCategoryButtons() {
+        // (Unchanged)
         for (int i = 0; i < categories.length; i++) {
             String category = categories[i];
             TextView button = createStyledButton(category);
-
             if (i == 0) selectCategory(button, category);
-
             button.setOnClickListener(v -> selectCategory(button, category));
             categoryContainer.addView(button);
         }
     }
 
     private void setupFeatureButtons() {
+        // (Unchanged)
         for (int i = 0; i < featureCategories.length; i++) {
             String feature = featureCategories[i];
             TextView button = createStyledButton(feature);
-
             if (i == 0) selectFeature(button, feature);
-
             button.setOnClickListener(v -> selectFeature(button, feature));
             featuredContainer.addView(button);
         }
     }
 
+    /**
+     * ##### THIS METHOD IS NOW UPDATED #####
+     * It now shows the progress bar before the call and hides it on success/failure.
+     */
+    private void setupVendorList() {
+        // 1. Initialize the list and adapter first (empty)
+        vendorList = new ArrayList<>();
+        vendorAdapter = new VendorAdapter(getContext(), vendorList);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
+        vendorRecyclerView.setLayoutManager(layoutManager);
+        vendorRecyclerView.setAdapter(vendorAdapter);
+
+        // 2. Log what we're fetching
+        if (userLatitude != 0.0 && userLongitude != 0.0) {
+            Log.d("HomeFragment", "Fetching vendors near: " + userLatitude + ", " + userLongitude);
+        } else {
+            Log.d("HomeFragment", "Fetching default vendors (lat/lon is 0).");
+        }
+
+        // 3. START LOADING: Show progress bar, hide list
+        vendorProgressBar.setVisibility(View.VISIBLE);
+        vendorRecyclerView.setVisibility(View.GONE);
+
+        // 4. Make the network call
+        Call<List<Vendor>> call = apiService.getNearbyVendors(userLatitude, userLongitude);
+
+        call.enqueue(new Callback<List<Vendor>>() {
+            @Override
+            public void onResponse(Call<List<Vendor>> call, Response<List<Vendor>> response) {
+                // STOP LOADING: Hide progress bar
+                vendorProgressBar.setVisibility(View.GONE);
+
+                if (response.isSuccessful() && response.body() != null) {
+                    // SUCCESS!
+                    vendorList.clear();
+                    vendorList.addAll(response.body());
+                    vendorAdapter.notifyDataSetChanged();
+
+                    // Show the list
+                    vendorRecyclerView.setVisibility(View.VISIBLE);
+
+                    Log.d("HomeFragment", "Found " + response.body().size() + " vendors.");
+                } else {
+                    // API returned an error (e.g., 404, 500)
+                    Log.e("HomeFragment", "API Error: " + response.code() + " - " + response.message());
+                    Toast.makeText(getContext(), "Could not load vendors.", Toast.LENGTH_SHORT).show();
+                    // Keep list GONE
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<Vendor>> call, Throwable t) {
+                // STOP LOADING: Hide progress bar
+                vendorProgressBar.setVisibility(View.GONE);
+
+                // Network call itself failed (e.g., no internet, DNS error)
+                Log.e("HomeFragment", "Network Failure: " + t.getMessage());
+                Toast.makeText(getContext(), "Network error. Check connection.", Toast.LENGTH_SHORT).show();
+                // Keep list GONE
+            }
+        });
+    }
+
     private TextView createStyledButton(String text) {
+        // (Unchanged)
         TextView button = new TextView(requireContext());
         button.setText(text);
         button.setTextSize(14);
@@ -338,6 +360,7 @@ public class HomeFragment extends Fragment {
     }
 
     private void selectCategory(TextView newSelected, String category) {
+        // (Unchanged)
         if (selectedCategoryBtn != null) {
             selectedCategoryBtn.setBackground(ContextCompat.getDrawable(requireContext(), R.drawable.bg_category_button));
         }
@@ -351,6 +374,7 @@ public class HomeFragment extends Fragment {
     }
 
     private void selectFeature(TextView newSelected, String category) {
+        // (Unchanged)
         if (selectedFeatureBtn != null) {
             selectedFeatureBtn.setBackground(ContextCompat.getDrawable(requireContext(), R.drawable.bg_category_button));
         }
@@ -365,11 +389,13 @@ public class HomeFragment extends Fragment {
 
     @Override
     public void onPause() {
+        // (Unchanged)
         super.onPause();
         handler.removeCallbacks(carouselRunnable);
     }
 
     private String capitalizeFirstLetter(String input) {
+        // (Unchanged)
         if (input == null || input.isEmpty()) return "";
         return input.substring(0, 1).toUpperCase() + input.substring(1);
     }

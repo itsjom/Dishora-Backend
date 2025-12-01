@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- strong vivid outline when focused -->
+    <item android:state_focused="true" android:color="@color/orange" />
+    <!-- lighter orange by default -->
+    <item android:color="@color/light_orange" />
+</selector>

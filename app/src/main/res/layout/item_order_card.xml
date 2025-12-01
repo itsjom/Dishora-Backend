@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="8dp"
+    android:backgroundTint="@color/white"
+    app:cardElevation="4dp"
+    app:rippleColor="@color/orange_20"
+    android:padding="16dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingRight="16dp"
+        android:paddingLeft="16dp"
+        android:paddingBottom="16dp"
+        android:orientation="vertical">
+
+        <!-- Header row -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/tvOrderId"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Order #1234"
+                android:textStyle="bold"
+                android:textSize="16sp"/>
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/chipStatus"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                style="@style/Widget.MaterialComponents.Chip.Action"
+                app:chipBackgroundColor="@color/orange"
+                android:textColor="@android:color/white"
+                android:text="Pending"/>
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/tvPlacedDate"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:text="Placed on Oct 16, 2025"
+            android:textColor="@color/gray"
+            android:textSize="12sp"
+            android:layout_marginTop="4dp"/>
+
+        <TextView
+            android:id="@+id/tvVendor"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:text="Vendor: John’s Approved Café"
+            android:textStyle="bold"
+            android:layout_marginTop="8dp"/>
+
+        <TextView
+            android:id="@+id/tvTotal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="₱ 300.00"
+            android:textColor="@color/orange"
+            android:textStyle="bold"
+            android:layout_marginTop="4dp"/>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnViewDetails"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="View Details"
+            android:backgroundTint="@color/orange"
+            android:textColor="@android:color/white"
+            android:textAllCaps="false"/>
+    </LinearLayout>
+</com.google.android.material.card.MaterialCardView>

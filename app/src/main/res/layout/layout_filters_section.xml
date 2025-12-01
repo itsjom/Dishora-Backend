@@ -1,0 +1,202 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:weightSum="10"
+    android:padding="8dp">
+
+    <!-- Tabs -->
+
+    <LinearLayout
+        android:id="@+id/tabLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/square"
+        android:backgroundTint="@color/white"
+        android:divider="@drawable/divider_space"
+        android:dividerPadding="80dp"
+        android:orientation="horizontal"
+        android:padding="5dp"
+        android:showDividers="middle">
+
+        <Button
+            android:id="@+id/tabDiet"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:backgroundTint="#fff"
+            android:ellipsize="end"
+            android:fontFamily="@font/jost_semibold"
+            android:gravity="center"
+            android:minWidth="0dp"
+            android:minHeight="0dp"
+            android:paddingHorizontal="8dp"
+            android:paddingVertical="5dp"
+            android:singleLine="true"
+            android:text="Diet"
+            android:textColor="#000"
+            app:cornerRadius="15dp"
+            app:strokeColor="#D5D5D5"
+            app:strokeWidth="1dp" />
+
+        <Button
+            android:id="@+id/tabCalories"
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:layout_weight="1"
+            android:backgroundTint="#fff"
+            android:ellipsize="none"
+            android:fontFamily="@font/jost_semibold"
+            android:gravity="center"
+            android:minWidth="0dp"
+            android:minHeight="0dp"
+            android:paddingHorizontal="8dp"
+            android:paddingVertical="5dp"
+            android:singleLine="true"
+            android:text="Calories"
+            android:textColor="#000"
+            app:cornerRadius="15dp"
+            app:strokeColor="#D5D5D5"
+            app:strokeWidth="1dp" />
+
+        <Button
+            android:id="@+id/tabHalal"
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:layout_weight="1"
+            android:backgroundTint="#fff"
+            android:ellipsize="none"
+            android:fontFamily="@font/jost_semibold"
+            android:gravity="center"
+            android:minWidth="0dp"
+            android:minHeight="0dp"
+            android:paddingHorizontal="8dp"
+            android:paddingVertical="5dp"
+            android:singleLine="true"
+            android:text="Halal"
+            android:textColor="#000"
+            app:cornerRadius="15dp"
+            app:strokeColor="#D5D5D5"
+            app:strokeWidth="1dp" />
+    </LinearLayout>
+
+    <HorizontalScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="6dp"
+        android:layout_marginBottom="10dp"
+        android:background="@drawable/square"
+        android:backgroundTint="@color/white">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <!-- Chips -->
+            <com.google.android.material.chip.ChipGroup
+                android:id="@+id/selectedFiltersContainer"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                app:chipSpacing="5dp"
+                app:chipSpacingVertical="8dp"
+                app:singleLine="false"
+                app:singleSelection="false" />
+        </LinearLayout>
+    </HorizontalScrollView>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="5"
+        android:fillViewport="true"
+        android:background="@drawable/square"
+        android:backgroundTint="@color/white">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:id="@+id/filtersCheckboxContainer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical" />
+
+        </LinearLayout>
+    </ScrollView>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:padding="10dp">
+
+        <Button
+            android:id="@+id/clearButton"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:backgroundTint="#fff"
+            android:ellipsize="none"
+            android:fontFamily="@font/jost_semibold"
+            android:gravity="center"
+            android:minWidth="0dp"
+            android:minHeight="0dp"
+            android:paddingHorizontal="8dp"
+            android:paddingVertical="5dp"
+            android:singleLine="true"
+            android:text="Clear Filter"
+            android:textColor="#000"
+            android:textSize="12sp"
+            app:cornerRadius="8dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:strokeColor="#D5D5D5"
+            app:strokeWidth="1dp" />
+
+        <Button
+            android:id="@+id/applyButton"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_weight="1"
+            android:backgroundTint="@color/colorPrimary"
+            android:ellipsize="none"
+            android:fontFamily="@font/jost_semibold"
+            android:gravity="center"
+            android:minWidth="0dp"
+            android:minHeight="0dp"
+            android:paddingHorizontal="8dp"
+            android:paddingVertical="5dp"
+            android:singleLine="true"
+            android:text="Apply"
+            android:textColor="@color/white"
+            android:textSize="12sp"
+            app:cornerRadius="8dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/clearButton"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.0" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <!-- Selected Filters Chips -->
+
+    <!-- ScrollView for checkboxes -->
+
+<!--    <ScrollView-->
+<!--        android:id="@+id/filtersScrollView"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="0dp"-->
+<!--        android:layout_weight="1">-->
+
+<!--    </ScrollView>-->
+
+    <!-- Buttons -->
+</LinearLayout>

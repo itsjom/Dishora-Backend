@@ -1,14 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
-
+    <!-- Your existing permissions are fine -->
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission
+        android:name="android.permission.WRITE_EXTERNAL_STORAGE"
+        android:maxSdkVersion="32" />
+    <uses-permission
+        android:name="android.permission.READ_EXTERNAL_STORAGE"
+        android:maxSdkVersion="32" />
+    <uses-permission android:name="android.permission.READ_MEDIA_IMAGES" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
 
     <application
+        android:name=".MyApp"
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
@@ -18,32 +25,67 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Base.Theme.Dishora"
+        android:usesCleartextTraffic="true"
         tools:replace="android:allowBackup"
         tools:targetApi="31">
         <activity
-            android:name=".address.AddressActivity"
+            android:name=".CheckoutConfirmationActivity"  android:exported="true"
+            android:launchMode="singleTop"> <intent-filter>
+            <action android:name="android.intent.action.VIEW" />
+            <category android:name="android.intent.category.DEFAULT" />
+            <category android:name="android.intent.category.BROWSABLE" />
+            <data android:scheme="dishora" android:host="payment" android:path="/success" />
+            <data android:scheme="dishora" android:host="payment" android:path="/cancel" />
+        </intent-filter>
+
+        </activity>
+        <activity
+            android:name=".vendorUI.homeTab.schedule.PreOrderScheduleActivity"
+            android:exported="false" />
+        <activity
+            android:name=".utils.chat.ChatActivity"
             android:exported="false"
-            android:theme="@style/Base.Theme.Dishora" />
+            android:windowSoftInputMode="adjustResize" />
         <activity
-            android:name=".defaultUI.vendorsTab.openingVendors.preOrderActivity.AddressFormActivity"
+            android:name=".defaultUI.orderTab.orderDetails.CustomerOrderDetailsActivity"
             android:exported="false" />
         <activity
-            android:name=".reusable.address.AddressFormActivity"
+            android:name=".vendorUI.homeTab.profile.VendorProfileActivity"
+            android:exported="false" /> <!-- ✅ 1. ADD THE GOOGLE MAPS API KEY META-DATA TAG HERE -->
+        <!--
+ This is the most important addition. The key value is automatically
+             inserted from your build.gradle.kts and local.properties files.
+        -->
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="${MAPS_API_KEY}" /> <!-- ✅ 2. (Optional but Recommended) ADD THE LEGACY APACHE HTTP LIBRARY -->
+        <!-- Required for Maps SDK on Android 9 (API 28) and above. It prevents potential crashes. -->
+        <uses-library
+            android:name="org.apache.http.legacy"
+            android:required="false" /> <!-- Your existing activity declarations -->
+        <activity
+            android:name=".defaultUI.homeTab.cart.shopCart.checkout.ShopCartCheckoutActivity"
             android:exported="false" />
         <activity
-            android:name=".reusable.address.AddressListActivity"
+            android:name=".defaultUI.homeTab.cart.shopCart.vendorShop.OpeningVendorsActivity"
             android:exported="false" />
         <activity
-            android:name=".defaultUI.vendorsTab.openingVendors.preOrderActivity.CheckoutActivity"
+            android:name=".defaultUI.homeTab.cart.shopCart.ShopCartDetailActivity"
             android:exported="false" />
         <activity
-            android:name=".defaultUI.vendorsTab.openingVendors.preOrderActivity.CustomizeActivity"
+            android:name=".defaultUI.homeTab.cart.CustomerCartActivity"
             android:exported="false" />
         <activity
-            android:name=".defaultUI.cartTab.orderTab.checkOutPage.address.AddAddress"
+            android:name=".vendorUI.profileTab.paymentMethod.PaymentMethodActivity"
+            android:exported="false" /> <!-- Deep‑link entry point for PayMongo redirect -->
+        <activity
+            android:name=".vendorUI.VendorMainActivity"
             android:exported="false" />
         <activity
-            android:name=".defaultUI.profileTab.startSellingOption.StartSelling"
+            android:name=".defaultUI.vendorsTab.openingVendors.preOrderActivity.PreOrderCheckoutActivity"
+            android:exported="false" />
+        <activity
+            android:name=".defaultUI.profileTab.startSellingOption.StartSellingActivity"
             android:exported="false" />
         <activity
             android:name=".ForgotPassword"
@@ -52,10 +94,13 @@
             android:name=".SignUp"
             android:exported="false" />
         <activity
-            android:name=".MainActivity"
+            android:name=".defaultUI.CustomerMainActivity"
             android:exported="false" />
         <activity
             android:name=".Login"
+            android:exported="true" />
+        <activity
+            android:name=".MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

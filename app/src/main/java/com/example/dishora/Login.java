@@ -1,28 +1,25 @@
 package com.example.dishora;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
-
-import com.example.dishora.models.LoginResponse.UserData;
-import android.text.method.HideReturnsTransformationMethod;
-import android.text.method.PasswordTransformationMethod;
+import android.util.Log;
 import android.view.View;
-import android.widget.Button;
-import android.widget.CheckBox;
-import android.widget.EditText;
-import android.widget.ImageView;
-import android.widget.ProgressBar;
-import android.widget.TextView;
-import android.widget.Toast;
-
+import android.widget.*;
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.dishora.defaultUI.CustomerMainActivity;
 import com.example.dishora.models.LoginRequest;
 import com.example.dishora.models.LoginResponse;
 import com.example.dishora.network.ApiClient;
 import com.example.dishora.network.ApiService;
+import com.example.dishora.utils.SessionManager;
+import com.example.dishora.vendorUI.VendorMainActivity;
+import com.google.android.material.button.MaterialButton;
+import com.google.android.material.textfield.TextInputEditText;
+import com.google.gson.Gson;
+
+import java.io.IOException;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -30,11 +27,10 @@ import retrofit2.Response;
 
 public class Login extends AppCompatActivity {
 
-    private EditText emailET, passwrdET;
-    private ImageView togglePassword;
+    private TextInputEditText emailET, passwordET;
     private ProgressBar progressBar;
-    private Button loginBtn;
-    private SharedPreferences sharedPreferences;
+    private FrameLayout loadingOverlay;
+    private MaterialButton loginBtn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,105 +38,108 @@ public class Login extends AppCompatActivity {
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_login);
 
-        // Initialize SharedPreferences
-        sharedPreferences = getSharedPreferences("MyPreferences", MODE_PRIVATE);
-
-        // Check login status
-        if (sharedPreferences.getBoolean("isLoggedIn", false)) {
-            startActivity(new Intent(Login.this, MainActivity.class));
+        // Check existing session
+        SessionManager sessionManager = new SessionManager(this);
+        if (sessionManager.isLoggedIn()) {
+            if (sessionManager.isVendor() && "Approved".equalsIgnoreCase(sessionManager.getVendorStatus())) {
+                startActivity(new Intent(Login.this, VendorMainActivity.class));
+            } else {
+                startActivity(new Intent(Login.this, CustomerMainActivity.class));
+            }
             finish();
             return;
         }
 
         // Initialize UI
         emailET = findViewById(R.id.emailInput);
-        passwrdET = findViewById(R.id.passwordInput);
-        togglePassword = findViewById(R.id.togglePasswordVisibility);
+        passwordET = findViewById(R.id.passwordInput);
         progressBar = findViewById(R.id.progressBar);
+        loadingOverlay = findViewById(R.id.loadingOverlay);
         loginBtn = findViewById(R.id.logInBtn);
-        CheckBox cb = findViewById(R.id.checkBox);
-        cb.setChecked(true); // Default checked
+        CheckBox rememberCheck = findViewById(R.id.checkBox);
+        rememberCheck.setChecked(true);
 
-        // Toggle password visibility
-        togglePassword.setOnClickListener(v -> {
-            if (passwrdET.getTransformationMethod() == PasswordTransformationMethod.getInstance()) {
-                passwrdET.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
-                togglePassword.setImageResource(R.drawable.pass_show);
-            } else {
-                passwrdET.setTransformationMethod(PasswordTransformationMethod.getInstance());
-                togglePassword.setImageResource(R.drawable.pass_hide);
-            }
-            passwrdET.setSelection(passwrdET.getText().length());
-        });
+        // Navigation actions
+        findViewById(R.id.signInLink)
+                .setOnClickListener(v -> startActivity(new Intent(Login.this, SignUp.class)));
+        findViewById(R.id.forgotPassTV)
+                .setOnClickListener(v -> startActivity(new Intent(Login.this, ForgotPassword.class)));
 
-        // Go to SignUp
-        TextView signInView = findViewById(R.id.signInLink);
-        signInView.setOnClickListener(v -> startActivity(new Intent(Login.this, SignUp.class)));
-
-        // Go to ForgotPassword
-        TextView forgotPassView = findViewById(R.id.forgotPassTV);
-        forgotPassView.setOnClickListener(v -> startActivity(new Intent(Login.this, ForgotPassword.class)));
-
-        // Handle login
+        // Login button click
         loginBtn.setOnClickListener(v -> loginUser());
     }
 
     private void loginUser() {
-        String email = emailET.getText().toString().trim();
-        String password = passwrdET.getText().toString().trim();
+        String email = emailET.getText() != null ? emailET.getText().toString().trim() : "";
+        String password = passwordET.getText() != null ? passwordET.getText().toString().trim() : "";
 
         if (email.isEmpty() || password.isEmpty()) {
             Toast.makeText(this, "Please fill in all fields", Toast.LENGTH_SHORT).show();
             return;
         }
 
-        // Show loading
-        progressBar.setVisibility(View.VISIBLE);
-        loginBtn.setEnabled(false);
+        showLoading(true);
 
-        LoginRequest request = new LoginRequest(email, password);
         ApiService api = ApiClient.getBackendClient().create(ApiService.class);
-
-        api.login(request).enqueue(new Callback<LoginResponse>() {
+        api.login(new LoginRequest(email, password)).enqueue(new Callback<LoginResponse>() {
             @Override
             public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
-                progressBar.setVisibility(View.GONE);
-                loginBtn.setEnabled(true);
+                showLoading(false);
+                Log.d("LOGIN_RESPONSE_CODE", "Response code: " + response.code());
 
                 if (response.isSuccessful() && response.body() != null) {
                     LoginResponse res = response.body();
+                    Log.d("LOGIN_RESPONSE_BODY", "Response body: " + new Gson().toJson(res));
+
                     if (res.isSuccess()) {
-                        UserData data = res.getData();
+                        LoginResponse.UserData data = res.getData();
+                        SessionManager sessionManager = new SessionManager(getApplicationContext());
+                        sessionManager.createLoginSession(data);
 
-                        // Save login status
-                        sharedPreferences.edit()
-                                .putString("email", email)
-                                .putBoolean("isLoggedIn", true)
-                                .putString("username", data.getUsername())
-                                .putLong("user_id", data.getUserId())
-                                .apply();
+                        Toast.makeText(Login.this,
+                                "Welcome, " + (data.getUsername() != null ? data.getUsername() : "User") + "!",
+                                Toast.LENGTH_SHORT).show();
 
-                        Toast.makeText(Login.this, "Welcome, " + data.getUsername() + "!", Toast.LENGTH_SHORT).show();
+                        Intent nextScreen;
+                        if (data.isVendor() && "Approved".equalsIgnoreCase(data.getVendorStatus())) {
+                            nextScreen = new Intent(Login.this, VendorMainActivity.class);
+                        } else {
+                            nextScreen = new Intent(Login.this, CustomerMainActivity.class);
+                        }
 
-                        // Go to main
-                        Intent i = new Intent(Login.this, MainActivity.class);
-                        i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                        startActivity(i);
+                        nextScreen.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                        startActivity(nextScreen);
                         finish();
                     } else {
                         Toast.makeText(Login.this, res.getMessage(), Toast.LENGTH_SHORT).show();
                     }
                 } else {
-                    Toast.makeText(Login.this, "Login failed. Server error: " + response.code(), Toast.LENGTH_SHORT).show();
+                    if (response.errorBody() != null) {
+                        try {
+                            String errorBody = response.errorBody().string();
+                            Log.e("LOGIN_ERROR_BODY", "Error body: " + errorBody);
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                    Toast.makeText(Login.this,
+                            "Login failed. Server error: " + response.code(),
+                            Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
             public void onFailure(Call<LoginResponse> call, Throwable t) {
-                progressBar.setVisibility(View.GONE);
-                loginBtn.setEnabled(true);
-                Toast.makeText(Login.this, "Network error: " + t.getMessage(), Toast.LENGTH_LONG).show();
+                showLoading(false);
+                Log.e("LOGIN_FAILURE", "Network failure: " + t.getMessage(), t);
+                Toast.makeText(Login.this,
+                        "Network error: " + t.getMessage(), Toast.LENGTH_LONG).show();
             }
         });
+    }
+
+    private void showLoading(boolean show) {
+        loadingOverlay.setVisibility(show ? View.VISIBLE : View.GONE);
+        loginBtn.setEnabled(!show);
     }
 }
