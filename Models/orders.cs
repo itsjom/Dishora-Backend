@@ -25,6 +25,8 @@ public partial class orders
 
     public string? proof_of_delivery { get; set; }
 
+    public string? cancellation_reason { get; set; }
+
     public virtual business_details business { get; set; } = null!;
 
     public virtual ICollection<delivery_addresses> delivery_address { get; set; } = new List<delivery_addresses>();

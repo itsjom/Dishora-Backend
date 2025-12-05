@@ -12,6 +12,7 @@ namespace Dishora.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
+    [Authorize]
     public class VendorRegistrationController : ControllerBase
     {
         private readonly DishoraDbContext _context;

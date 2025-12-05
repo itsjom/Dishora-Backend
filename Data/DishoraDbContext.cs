@@ -666,6 +666,10 @@ public partial class DishoraDbContext : DbContext
 
             entity.Property(e => e.order_id).HasColumnName("order_id");
             entity.Property(e => e.business_id).HasColumnName("business_id");
+            entity.Property(e => e.cancellation_reason)
+                .HasMaxLength(255)
+                .IsUnicode(false)
+                .HasColumnName("cancellation_reason");
             entity.Property(e => e.created_at)
                 .HasColumnType("datetime")
                 .HasColumnName("created_at");

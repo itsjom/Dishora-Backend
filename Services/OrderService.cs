@@ -307,10 +307,13 @@ namespace Dishora.Services
         // =====================================================
         //  CANCEL AN ORDER
         // =====================================================
-        public async Task<bool> CancelOrderAsync(long orderId, long userId)
+        public async Task<bool> CancelOrderAsync(long orderId, long userId, string reason)
         {
             var order = await _db.orders
                 .Include(o => o.order_item)
+                .Include(o => o.business)
+                    .ThenInclude(o => o.vendor)
+                .Include(o => o.User)
                 .FirstOrDefaultAsync(o => o.order_id == orderId && o.user_id == userId);
 
             if (order == null || !order.order_item.All(i => i.order_item_status.Equals("Pending", StringComparison.OrdinalIgnoreCase)))
@@ -318,9 +321,39 @@ namespace Dishora.Services
                 return false;
             }
 
+            order.cancellation_reason = reason;
+            order.updated_at = DateTime.UtcNow;
+
             foreach (var item in order.order_item)
             {
                 item.order_item_status = "Cancelled";
+                item.updated_at = DateTime.UtcNow;
+            }
+
+            if (order.business?.vendor != null)
+            {
+                string customerName = order.User?.username ?? "Customer";
+
+                var payload = new
+                {
+                    title = "Order Cancelled",
+                    message = $"An order from {customerName} with an order ID:{orderId} was cancelled by the customer. Reason: {reason}"
+                };
+
+                var notif = new notifications
+                {
+                    user_id = order.business.vendor.user_id, // Vendor
+                    actor_user_id = userId,                  // Customer
+                    event_type = "order_cancelled",
+                    reference_table = "orders",
+                    reference_id = order.order_id,
+                    payload = JsonSerializer.Serialize(payload),
+                    is_read = false,
+                    channel = "in_app",
+                    created_at = DateTime.UtcNow,
+                    recipient_role = "vendor"
+                };
+                _db.notifications.Add(notif);
             }
 
             await _db.SaveChangesAsync();

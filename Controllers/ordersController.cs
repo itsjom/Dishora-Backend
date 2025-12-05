@@ -93,7 +93,7 @@ namespace Dishora.Controllers
         //  POST /api/orders/5/cancel
         // =====================================================
         [HttpPost("{id}/cancel")]
-        public async Task<IActionResult> CancelOrder(long id)
+        public async Task<IActionResult> CancelOrder(long id, [FromBody] CancelOrderRequest request)
         {
             var userIdString = User.FindFirstValue(ClaimTypes.NameIdentifier);
             if (!long.TryParse(userIdString, out var userId))
@@ -101,7 +101,7 @@ namespace Dishora.Controllers
                 return BadRequest("Invalid user ID format.");
             }
 
-            var success = await _orderService.CancelOrderAsync(id, userId);
+            var success = await _orderService.CancelOrderAsync(id, userId, request.Reason);
 
             if (!success)
             {
